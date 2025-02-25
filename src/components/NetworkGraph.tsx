@@ -7,6 +7,7 @@ interface Node extends d3.SimulationNodeDatum {
   id: number;
   name: string;
   group: number;
+  link?: string;
 }
 
 interface Link {
@@ -25,20 +26,20 @@ const NetworkGraph = () => {
 
     const nodes: Node[] = [
       { id: 1, name: 'Peak', group: 1 },
-      { id: 2, name: 'Samsunng', group: 2 },
-      { id: 3, name: 'TheSunHan', group: 2 },
-      { id: 4, name: 'LG', group: 2 },
-      { id: 5, name: 'Starbucks', group: 2 },
-      { id: 6, name: 'toss', group: 2 },
-      { id: 7, name: 'RIDI', group: 2 },
-      { id: 8, name: 'TMON', group: 2 },
-      { id: 9, name: 'yanolja', group: 2 },
-      { id: 10, name: 'Airbnb', group: 2 },
-      { id: 11, name: 'WATCHA', group: 2 },
-      { id: 12, name: 'NETPLIX', group: 2 },
-      { id: 13, name: 'CGV', group: 2 },
-      { id: 14, name: 'SANDBOX', group: 2 },
-      { id: 15, name: 'wadiz', group: 2 },
+      { id: 2, name: 'Samsunng', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 3, name: 'TheSunHan', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 4, name: 'LG', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 5, name: 'Starbucks', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 6, name: 'toss', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 7, name: 'RIDI', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 8, name: 'TMON', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 9, name: 'yanolja', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 10, name: 'Airbnb', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 11, name: 'WATCHA', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 12, name: 'NETPLIX', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 13, name: 'CGV', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 14, name: 'SANDBOX', group: 2, link: 'https://www.peak.ceo/' },
+      { id: 15, name: 'wadiz', group: 2, link: 'https://www.peak.ceo/' },
     ];
 
     const links: Link[] = [
@@ -110,7 +111,12 @@ const NetworkGraph = () => {
           .on('start', dragstart)
           .on('drag', dragged)
           .on('end', dragend)
-      );
+      )
+      .on('click', (event, d) => {
+        if (d.link) {
+          window.open(d.link, '_blank');
+        }
+      });
 
     // 원 추가
     node
