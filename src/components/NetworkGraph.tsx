@@ -105,6 +105,7 @@ const NetworkGraph = () => {
       .enter()
       .append('g')
       .attr('class', 'node')
+      .style('cursor', 'pointer')
       .call(
         d3
           .drag<SVGGElement, Node, Node>()
