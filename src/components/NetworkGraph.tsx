@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { testData } from '@/utils/testData';
 
 // interface Node extends d3.SimulationNodeDatum {
 //   id: number;
@@ -39,64 +40,14 @@ const NetworkGraph = () => {
     const width = 700;
     const height = 700;
 
-    const nodes: Node[] = [
-      {
-        id: 1,
-        company: 'Peak',
-        key_executive: '권태욱',
-        industry: 'AI∙데이터분석',
-        address: '서울특별시 서초구 효령로 391',
-        homepage: 'https://www.peak.ceo/',
-        email: 'david@goodai.kr',
-        phone_number: '정보 없음',
-        sales: '정보 없음',
-        total_funding: '정보 없음',
-      },
-      {
-        id: 2,
-        company: '시어스랩',
-        key_executive: '정진욱',
-        industry: '콘텐츠∙이미지/영상',
-        address: '서울특별시 서초구 강남대로315, 2층(서초동, 파이낸셜뉴스빌딩)',
-        homepage: 'seerslab.com',
-        email: 'business@seerslab.com',
-        phone_number: '정보 없음',
-        sales: '정보 없음',
-        total_funding: '정보 없음',
-        logo_url:
-          'https://logo-resources.thevc.kr/organizations/200x200/678245ee35a4ecef2fcc086b3518ac10ed8550b42c78384728c7ec7cdb1dea29_1484801033496907.jpg',
-      },
-      {
-        id: 3,
-        company: '티피씨메카트로닉스',
-        key_executive: '엄재윤∙엄주섭',
-        industry: '제조/3D프린터∙기계',
-        address: '인천광역시 서구 갑문2로 39(오류동, 단해창도클러스터)',
-        homepage: 'www.tpcpage.com',
-        email: '정보 없음',
-        phone_number: '정보 없음',
-        sales: '정보 없음',
-        total_funding: '5억',
-        logo_url:
-          'https://logo-resources.thevc.kr/organizations/200x200/b8abe29ad3544dcb8e717273be81370133b6fcf5e62bdfa28b31af767cc5c067_1639500082136829.jpg',
-      },
-    ];
+    const nodes = testData;
 
+    // 두 번째 노드부터 마지막 노드까지 첫 노드와 연결
     const links: Link[] = [
-      { source: nodes[0], target: nodes[1] },
-      { source: nodes[0], target: nodes[2] },
-      // { source: nodes[0], target: nodes[3] },
-      // { source: nodes[0], target: nodes[4] },
-      // { source: nodes[0], target: nodes[5] },
-      // { source: nodes[0], target: nodes[6] },
-      // { source: nodes[0], target: nodes[7] },
-      // { source: nodes[0], target: nodes[8] },
-      // { source: nodes[0], target: nodes[9] },
-      // { source: nodes[0], target: nodes[10] },
-      // { source: nodes[0], target: nodes[11] },
-      // { source: nodes[0], target: nodes[12] },
-      // { source: nodes[0], target: nodes[13] },
-      // { source: nodes[0], target: nodes[14] },
+      ...nodes.slice(1, nodes.length).map((_, i) => ({
+        source: nodes[0],
+        target: nodes[i + 1],
+      })),
     ];
 
     const svg = d3
