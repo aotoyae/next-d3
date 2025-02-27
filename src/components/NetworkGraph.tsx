@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { testData } from '@/utils/testData';
 
@@ -33,12 +33,13 @@ interface Link {
 
 const NetworkGraph = () => {
   const svgRef = useRef(null);
+  const width = 700;
+  const height = 700;
+  const [selectedCompany, setSelectedCompany] = useState(testData[0]);
 
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const width = 700;
-    const height = 700;
     const nodes = testData;
     const nodeSize = 30;
     const nodeSpacing = 35;
@@ -62,8 +63,7 @@ const NetworkGraph = () => {
     const svg = d3
       .select(svgRef.current)
       .attr('width', width)
-      .attr('height', height)
-      .style('border', '1px solid var(--peak-900)');
+      .attr('height', height);
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -197,10 +197,17 @@ const NetworkGraph = () => {
   }, []);
 
   return (
-    <>
+    <main className="flex justify-center items-center gap-12">
       <svg ref={svgRef}></svg>
-      <p>- network graph -</p>
-    </>
+      {/* <p>- network graph -</p> */}
+      <section className="w-[400px] h-80 p-4 border border-solid border-peak-200 rounded-3xl">
+        <h2 className="font-black text-2xl mb-6">{selectedCompany.company}</h2>
+        <p>{selectedCompany.key_executive}</p>
+        <p>{selectedCompany.industry}</p>
+        <p>{selectedCompany.address}</p>
+        <p>{selectedCompany.email}</p>
+      </section>
+    </main>
   );
 };
 
