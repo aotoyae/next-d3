@@ -112,7 +112,7 @@ const NetworkGraph = () => {
         d3
           .forceLink(links)
           .id((d) => (d as Node).id)
-          .distance(250)
+          .distance(150)
       )
       .force('charge', d3.forceManyBody().strength(-200))
       .force('center', d3.forceCenter(width / 2, height / 2));
@@ -161,19 +161,44 @@ const NetworkGraph = () => {
       .attr('r', (d) => {
         const total_funding = Number(d.total_funding.split('억')[0]);
 
-        return !isNaN(total_funding) ? Math.sqrt(total_funding) * 1.7 + 25 : 25;
+        return !isNaN(total_funding) ? Math.sqrt(total_funding) * 1.7 + 30 : 30;
       })
       .attr('stroke', '#efe0ff')
       .attr('stroke-width', 1)
-      .attr('fill', (d) => (d.id === 1 ? '#420c7c' : '#a24bff'));
+      .attr('fill', (d) => (d.id === 1 ? '#420c7c' : '#fff'));
+
+    // 로고 추가
+    const clipPath = svg
+      .append('defs')
+      .selectAll('clipPath')
+      .data(nodes)
+      .enter()
+      .append('clipPath')
+      .attr('id', (d) => `clip-${d.id}`);
+
+    clipPath
+      .append('circle')
+      .attr('r', 20) // 클립 크기 (반지름)
+      .attr('cx', 0)
+      .attr('cy', 0);
+
+    node
+      .append('image')
+      .attr('xlink:href', (d) => d.logo_url || '')
+      .attr('width', 40)
+      .attr('height', 40)
+      .attr('x', -20)
+      .attr('y', -20)
+      .attr('clip-path', (d) => `url(#clip-${d.id})`);
 
     // 텍스트 추가
     node
+      .filter((d) => d.id === 1)
       .append('text')
       .attr('dy', 4)
       .attr('text-anchor', 'middle')
-      .attr('fill', 'white')
-      .attr('font-size', '10px')
+      .attr('fill', '#fff')
+      .attr('font-size', '12px')
       .attr('font-weight', 'bold')
       .text((d) => d.company);
 
