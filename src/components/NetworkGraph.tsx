@@ -63,7 +63,7 @@ const NetworkGraph = () => {
       .select(svgRef.current)
       .attr('width', width)
       .attr('height', height)
-      .style('border', '1px solid #340b60');
+      .style('border', '1px solid var(--peak-900)');
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -87,7 +87,7 @@ const NetworkGraph = () => {
       .enter()
       .append('line')
       .attr('class', 'link')
-      .attr('stroke', '#cfa7fa')
+      .attr('stroke', 'var(--peak-200)')
       .attr('stroke-width', 1);
 
     const node = svg
@@ -123,9 +123,9 @@ const NetworkGraph = () => {
       .append('circle')
       .attr('class', 'node')
       .attr('r', (d) => convertingNodeSize(d, nodeSize))
-      .attr('stroke', '#efe0ff')
+      .attr('stroke', 'var(--peak-200)')
       .attr('stroke-width', 1)
-      .attr('fill', (d) => (d.id === 1 ? '#420c7c' : '#fff'));
+      .attr('fill', (d) => (d.id === 1 ? 'var(--peak-900)' : '#fff'));
 
     // 로고 추가
     const clipPath = svg
