@@ -63,10 +63,20 @@ const NetworkGraph = () => {
         d3
           .forceLink(links)
           .id((d) => (d as Node).id)
-          .distance(150)
+          .distance(200)
       )
       .force('charge', d3.forceManyBody().strength(-200))
-      .force('center', d3.forceCenter(width / 2, height / 2));
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force(
+        'collid',
+        d3.forceCollide((d) => {
+          const total_funding = Number(d.total_funding.split('억')[0]);
+
+          return !isNaN(total_funding)
+            ? Math.sqrt(total_funding) * 1.7 + 35
+            : 35;
+        })
+      );
 
     const link = svg
       .selectAll('.link')
