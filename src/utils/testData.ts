@@ -83,7 +83,7 @@ export const testData: Node[] = [
     sales: '정보 없음',
     total_funding: '정보 없음',
     logo_url:
-      '/Users/kimsohyeon/Downloads/7c7b96114755c412e07445c22ca79bb37940c1812ad81bafbdfa5e90e3277515_1531963294347125.jpg',
+      'https://logo-resources.thevc.kr/organizations/200x200/7432d7b41a03bfe7bd88e06f3e889310d8cf67a83c6f13c49f64de30c765516c_1634625033790713.jpg',
   },
   {
     id: 6,

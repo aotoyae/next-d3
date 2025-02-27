@@ -39,8 +39,9 @@ const NetworkGraph = () => {
 
     const width = 700;
     const height = 700;
-
     const nodes = testData;
+    const nodeSize = 30;
+    const nodeSpacing = 35;
 
     // 두 번째 노드부터 마지막 노드까지 첫 노드와 연결
     const links: Link[] = [
@@ -49,6 +50,14 @@ const NetworkGraph = () => {
         target: nodes[i + 1],
       })),
     ];
+
+    const convertingNodeSize = (d: Node, number: number) => {
+      const total_funding = Number(d.total_funding.split('억')[0]);
+
+      return !isNaN(total_funding)
+        ? Math.sqrt(total_funding) * 1.7 + number
+        : number;
+    };
 
     const svg = d3
       .select(svgRef.current)
@@ -69,13 +78,7 @@ const NetworkGraph = () => {
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force(
         'collid',
-        d3.forceCollide((d) => {
-          const total_funding = Number(d.total_funding.split('억')[0]);
-
-          return !isNaN(total_funding)
-            ? Math.sqrt(total_funding) * 1.7 + 35
-            : 35;
-        })
+        d3.forceCollide((d) => convertingNodeSize(d, nodeSpacing))
       );
 
     const link = svg
@@ -119,11 +122,7 @@ const NetworkGraph = () => {
     node
       .append('circle')
       .attr('class', 'node')
-      .attr('r', (d) => {
-        const total_funding = Number(d.total_funding.split('억')[0]);
-
-        return !isNaN(total_funding) ? Math.sqrt(total_funding) * 1.7 + 30 : 30;
-      })
+      .attr('r', (d) => convertingNodeSize(d, nodeSize))
       .attr('stroke', '#efe0ff')
       .attr('stroke-width', 1)
       .attr('fill', (d) => (d.id === 1 ? '#420c7c' : '#fff'));
@@ -139,17 +138,23 @@ const NetworkGraph = () => {
 
     clipPath
       .append('circle')
-      .attr('r', 20) // 클립 크기 (반지름)
+      .attr('r', (d) => convertingNodeSize(d, nodeSpacing))
       .attr('cx', 0)
       .attr('cy', 0);
 
     node
       .append('image')
       .attr('xlink:href', (d) => d.logo_url || '')
-      .attr('width', 40)
-      .attr('height', 40)
-      .attr('x', -20)
-      .attr('y', -20)
+      .attr('width', (d) => convertingNodeSize(d, nodeSpacing))
+      .attr('height', (d) => convertingNodeSize(d, nodeSpacing))
+      .attr('x', (d) => {
+        const size = convertingNodeSize(d, nodeSpacing);
+        return -size / 2;
+      })
+      .attr('y', (d) => {
+        const size = convertingNodeSize(d, nodeSpacing);
+        return -size / 2;
+      })
       .attr('clip-path', (d) => `url(#clip-${d.id})`);
 
     // 텍스트 추가
