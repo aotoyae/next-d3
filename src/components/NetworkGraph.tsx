@@ -105,17 +105,18 @@ const NetworkGraph = () => {
           .on('end', dragend)
       )
       .on('click', (_, d) => {
-        let homepage = d.homepage;
+        setSelectedCompany(d);
+        // let homepage = d.homepage;
 
-        if (!homepage.startsWith('https://')) {
-          if (homepage.startsWith('www')) {
-            homepage = `https://${homepage}`;
-          } else {
-            homepage = `https://www.${homepage}`;
-          }
-        }
-        console.log(homepage);
-        window.open(homepage, '_blank');
+        // if (!homepage.startsWith('https://')) {
+        //   if (homepage.startsWith('www')) {
+        //     homepage = `https://${homepage}`;
+        //   } else {
+        //     homepage = `https://www.${homepage}`;
+        //   }
+        // }
+        // console.log(homepage);
+        // window.open(homepage, '_blank');
       });
 
     // 원 추가
