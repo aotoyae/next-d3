@@ -200,13 +200,34 @@ const NetworkGraph = () => {
     <main className="flex justify-center items-center gap-12">
       <svg ref={svgRef}></svg>
       {/* <p>- network graph -</p> */}
-      <section className="w-[400px] h-80 p-4 border border-solid border-peak-200 rounded-3xl">
+      <article className="w-[400px] h-80 p-4 border border-solid border-peak-200 rounded-3xl">
         <h2 className="font-black text-2xl mb-6">{selectedCompany.company}</h2>
-        <p>{selectedCompany.key_executive}</p>
-        <p>{selectedCompany.industry}</p>
-        <p>{selectedCompany.address}</p>
-        <p>{selectedCompany.email}</p>
-      </section>
+        <section className="flex flex-col">
+          <div className="flex gap-6">
+            <div className="flex gap-4">
+              <p>대표자</p>
+              <p>{selectedCompany.key_executive}</p>
+            </div>
+            <div className="flex gap-4">
+              <p>산업</p>
+              <p>{selectedCompany.industry}</p>
+            </div>
+          </div>
+          <div className="flex gap-6">
+            <p>주소</p>
+            <p>{selectedCompany.address}</p>
+          </div>
+          <div className="flex gap-6">
+            <p>이메일</p>
+            <p>{selectedCompany.email}</p>
+          </div>
+          <div className="flex gap-6">
+            <p>전화번호</p>
+            <p>{selectedCompany.phone_number}</p>
+          </div>
+        </section>
+        <button>➡️</button>
+      </article>
     </main>
   );
 };
