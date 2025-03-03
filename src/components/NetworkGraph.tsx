@@ -187,6 +187,17 @@ const NetworkGraph = () => {
     }
   }, []);
 
+  const getValidHomepage = (homepage: string) => {
+    if (!homepage.startsWith('https://')) {
+      if (homepage.startsWith('www')) {
+        return `https://${homepage}`;
+      } else {
+        return `https://www.${homepage}`;
+      }
+    }
+    return homepage;
+  };
+
   return (
     <main className="flex flex-col gap-20 pb-10">
       <section className="flex items-center justify-center gap-12">
@@ -217,7 +228,7 @@ const NetworkGraph = () => {
               <p className="col-span-5">{selectedCompany.total_funding}</p>
             </section>
             <Link
-              href={selectedCompany.homepage}
+              href={getValidHomepage(selectedCompany.homepage)}
               target="_blank"
               className="w-full py-3 font-bold tracking-widest text-center text-white rounded-lg bg-peak-500"
             >
@@ -252,7 +263,10 @@ const NetworkGraph = () => {
                 <TableCell>{item.industry}</TableCell>
                 <TableCell>{item.address}</TableCell>
                 <TableCell className="text-center">
-                  <Link href={item.homepage} target="_blank">
+                  <Link
+                    href={getValidHomepage(selectedCompany.homepage)}
+                    target="_blank"
+                  >
                     🌐
                   </Link>
                 </TableCell>
