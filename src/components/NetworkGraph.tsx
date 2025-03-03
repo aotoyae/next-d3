@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { testData } from '@/utils/testData';
 import Link from 'next/link';
-
-// interface Node extends d3.SimulationNodeDatum {
-//   id: number;
-//   name: string;
-//   group: number;
-//   link?: string;
-//   total_funding?: number;
-// }
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Node extends d3.SimulationNodeDatum {
   id: number;
@@ -107,17 +107,6 @@ const NetworkGraph = () => {
       )
       .on('click', (_, d) => {
         setSelectedCompany(d);
-        // let homepage = d.homepage;
-
-        // if (!homepage.startsWith('https://')) {
-        //   if (homepage.startsWith('www')) {
-        //     homepage = `https://${homepage}`;
-        //   } else {
-        //     homepage = `https://www.${homepage}`;
-        //   }
-        // }
-        // console.log(homepage);
-        // window.open(homepage, '_blank');
       });
 
     // 원 추가
@@ -199,41 +188,89 @@ const NetworkGraph = () => {
   }, []);
 
   return (
-    <main className="flex items-center justify-center gap-12">
-      <svg ref={svgRef}></svg>
-      {/* <p>- network graph -</p> */}
-      <section className="flex flex-col gap-10">
-        <h2 className="text-4xl font-semibold leading-snug text-center text-peak-900">
-          {testData[0].company}
-          <br />✕<br />
-          {selectedCompany.company}
-        </h2>
-        <article className="w-[450px] px-6 py-7 bg-gray-100 rounded-3xl flex flex-col justify-between gap-6 items-start">
-          <h2 className="text-lg font-black">
-            {selectedCompany.company} 기업 정보
+    <main className="flex flex-col gap-20 pb-10">
+      <section className="flex items-center justify-center gap-12">
+        <svg ref={svgRef}></svg>
+        {/* <p>- network graph -</p> */}
+        <section className="flex flex-col gap-10">
+          <h2 className="text-4xl font-semibold leading-snug text-center text-peak-900">
+            {testData[0].company}
+            <br />✕<br />
+            {selectedCompany.company}
           </h2>
-          <section className="grid grid-cols-6 gap-2">
-            <p className="font-bold">대표자</p>
-            <p>{selectedCompany.key_executive}</p>
-            <p className="font-bold">분야</p>
-            <p className="col-span-3">{selectedCompany.industry}</p>
-            <p className="font-bold">주소</p>
-            <p className="col-span-5">{selectedCompany.address}</p>
-            <p className="font-bold">이메일</p>
-            <p className="col-span-5">{selectedCompany.email}</p>
-            <p className="font-bold">전화번호</p>
-            <p className="col-span-5">{selectedCompany.phone_number}</p>
-            <p className="font-bold">투자금액</p>
-            <p className="col-span-5">{selectedCompany.total_funding}</p>
-          </section>
-          <Link
-            href={selectedCompany.homepage}
-            target="_blank"
-            className="w-full py-3 font-bold tracking-widest text-center text-white rounded-lg bg-peak-500"
-          >
-            홈페이지
-          </Link>
-        </article>
+          <article className="w-[450px] px-6 py-7 bg-gray-100 rounded-3xl flex flex-col justify-between gap-6 items-start">
+            <h2 className="text-lg font-black">
+              {selectedCompany.company} 기업 정보
+            </h2>
+            <section className="grid grid-cols-6 gap-2">
+              <p className="font-bold">대표자</p>
+              <p>{selectedCompany.key_executive}</p>
+              <p className="font-bold">분야</p>
+              <p className="col-span-3">{selectedCompany.industry}</p>
+              <p className="font-bold">주소</p>
+              <p className="col-span-5">{selectedCompany.address}</p>
+              <p className="font-bold">이메일</p>
+              <p className="col-span-5">{selectedCompany.email}</p>
+              <p className="font-bold">전화번호</p>
+              <p className="col-span-5">{selectedCompany.phone_number}</p>
+              <p className="font-bold">투자금액</p>
+              <p className="col-span-5">{selectedCompany.total_funding}</p>
+            </section>
+            <Link
+              href={selectedCompany.homepage}
+              target="_blank"
+              className="w-full py-3 font-bold tracking-widest text-center text-white rounded-lg bg-peak-500"
+            >
+              홈페이지
+            </Link>
+          </article>
+        </section>
+      </section>
+      <section className="px-8 py-6 border border-solid rounded-3xl border-peak-100">
+        <Table className="w-[80vw] text-sm">
+          <TableHeader>
+            <TableRow className="truncate">
+              <TableHead>기업명</TableHead>
+              <TableHead>대표자</TableHead>
+              <TableHead>분야</TableHead>
+              <TableHead>본사 주소</TableHead>
+              <TableHead>홈페이지</TableHead>
+              <TableHead>이메일</TableHead>
+              <TableHead>전화번호</TableHead>
+              <TableHead>투자금액</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {testData.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-semibold text-peak-800">
+                  {item.company}
+                </TableCell>
+                <TableCell className="truncate max-w-28">
+                  {item.key_executive}
+                </TableCell>
+                <TableCell>{item.industry}</TableCell>
+                <TableCell>{item.address}</TableCell>
+                <TableCell className="text-center">
+                  <Link href={item.homepage} target="_blank">
+                    🌐
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  {item.email === '정보 없음' ? '-' : item.email}
+                </TableCell>
+                <TableCell>
+                  {item.phone_number === '정보 없음' ? '-' : item.phone_number}
+                </TableCell>
+                <TableCell>
+                  {item.total_funding === '정보 없음'
+                    ? '-'
+                    : item.total_funding}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </section>
     </main>
   );
