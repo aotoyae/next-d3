@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { testData } from '@/utils/testData';
+import Link from 'next/link';
 
 // interface Node extends d3.SimulationNodeDatum {
 //   id: number;
@@ -198,37 +199,42 @@ const NetworkGraph = () => {
   }, []);
 
   return (
-    <main className="flex justify-center items-center gap-12">
+    <main className="flex items-center justify-center gap-12">
       <svg ref={svgRef}></svg>
       {/* <p>- network graph -</p> */}
-      <article className="w-[400px] h-80 p-4 border border-solid border-peak-200 rounded-3xl">
-        <h2 className="font-black text-2xl mb-6">{selectedCompany.company}</h2>
-        <section className="flex flex-col">
-          <div className="flex gap-6">
-            <div className="flex gap-4">
-              <p>대표자</p>
-              <p>{selectedCompany.key_executive}</p>
-            </div>
-            <div className="flex gap-4">
-              <p>산업</p>
-              <p>{selectedCompany.industry}</p>
-            </div>
-          </div>
-          <div className="flex gap-6">
-            <p>주소</p>
-            <p>{selectedCompany.address}</p>
-          </div>
-          <div className="flex gap-6">
-            <p>이메일</p>
-            <p>{selectedCompany.email}</p>
-          </div>
-          <div className="flex gap-6">
-            <p>전화번호</p>
-            <p>{selectedCompany.phone_number}</p>
-          </div>
-        </section>
-        <button>➡️</button>
-      </article>
+      <section className="flex flex-col gap-10">
+        <h2 className="text-4xl font-semibold leading-snug text-center text-peak-900">
+          {testData[0].company}
+          <br />✕<br />
+          {selectedCompany.company}
+        </h2>
+        <article className="w-[450px] px-6 py-7 bg-gray-100 rounded-3xl flex flex-col justify-between gap-6 items-start">
+          <h2 className="text-lg font-black">
+            {selectedCompany.company} 기업 정보
+          </h2>
+          <section className="grid grid-cols-6 gap-2">
+            <p className="font-bold">대표자</p>
+            <p>{selectedCompany.key_executive}</p>
+            <p className="font-bold">분야</p>
+            <p className="col-span-3">{selectedCompany.industry}</p>
+            <p className="font-bold">주소</p>
+            <p className="col-span-5">{selectedCompany.address}</p>
+            <p className="font-bold">이메일</p>
+            <p className="col-span-5">{selectedCompany.email}</p>
+            <p className="font-bold">전화번호</p>
+            <p className="col-span-5">{selectedCompany.phone_number}</p>
+            <p className="font-bold">투자금액</p>
+            <p className="col-span-5">{selectedCompany.total_funding}</p>
+          </section>
+          <Link
+            href={selectedCompany.homepage}
+            target="_blank"
+            className="w-full py-3 font-bold tracking-widest text-center text-white rounded-lg bg-peak-500"
+          >
+            홈페이지
+          </Link>
+        </article>
+      </section>
     </main>
   );
 };
