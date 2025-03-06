@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { totalData } from '@/utils/totalData';
 import Link from 'next/link';
@@ -28,7 +28,6 @@ const GalaxyGraph = () => {
   const svgRef = useRef(null);
   const width = 700;
   const height = 700;
-  const [selectedCompany, setSelectedCompany] = useState(totalData[0]);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -98,7 +97,17 @@ const GalaxyGraph = () => {
           .on('end', dragend)
       )
       .on('click', (_, d) => {
-        setSelectedCompany(d);
+        let homepage = d.homepage;
+
+        if (!homepage.startsWith('https://')) {
+          if (homepage.startsWith('www')) {
+            homepage = `https://${homepage}`;
+          } else {
+            homepage = `https://www.${homepage}`;
+          }
+        }
+        console.log(homepage);
+        window.open(homepage, '_blank');
       });
 
     // 원 추가
