@@ -26,15 +26,15 @@ interface Link {
 
 const GalaxyGraph = () => {
   const svgRef = useRef(null);
-  const width = 700;
-  const height = 700;
+  const width = 1200;
+  const height = 1000;
 
   useEffect(() => {
     if (!svgRef.current) return;
 
     const nodes = totalData;
-    const nodeSize = 30;
-    const nodeSpacing = 35;
+    const nodeSize = 10;
+    const nodeSpacing = 12;
 
     // 두 번째 노드부터 마지막 노드까지 첫 노드와 연결
     const links: Link[] = [
@@ -47,8 +47,12 @@ const GalaxyGraph = () => {
     const convertingNodeSize = (d: Node, number: number) => {
       const total_funding = Number(d.total_funding.split('억')[0]);
 
+      if (d.id == 1) {
+        return 30;
+      }
+
       return !isNaN(total_funding)
-        ? Math.sqrt(total_funding) * 1.7 + number
+        ? Math.sqrt(total_funding) * 1.5 + number
         : number;
     };
 
