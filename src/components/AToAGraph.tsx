@@ -55,6 +55,17 @@ const AToAGraph = () => {
       target: node,
     }));
 
+    for (let i = 0; i < 80; i++) {
+      const sourceNode = nodes[Math.floor(Math.random() * nodes.length)];
+      const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+
+      if (sourceNode !== targetNode) {
+        links.push({ source: sourceNode, target: targetNode });
+      } else {
+        i--; // 만약 source와 target이 같다면 다시 시도
+      }
+    }
+
     const svg = d3
       .select(svgRef.current)
       .attr('width', width)
