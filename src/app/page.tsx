@@ -1,3 +1,4 @@
+import AToAGraph from '@/components/AToAGraph';
 import GalaxyGraph from '@/components/GalaxyGraph';
 
 export default function Home() {
@@ -10,7 +11,8 @@ export default function Home() {
     <div className="flex flex-col items-center">
       {/* <h1 className="py-4 text-3xl font-black">D3.js with Next.js</h1> */}
       {/* <NetworkGraph /> */}
-      <GalaxyGraph />
+      {/* <GalaxyGraph /> */}
+      <AToAGraph />
       {/* <BarChart data={data} /> */}
     </div>
   );
