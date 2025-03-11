@@ -45,9 +45,9 @@ const AToAGraph = () => {
     const centerNodes = nodes.slice(0, 8); // 상위 8개 노드를 중심으로 지정
     const otherNodes = nodes.slice(8); // 나머지 노드들
 
-    centerNodes.forEach((node, index) => {
-      node.fx = startX + (index % columns) * spacingX;
-      node.fy = startY + Math.floor(index / columns) * spacingY;
+    centerNodes.forEach((node, idx) => {
+      node.fx = startX + (idx % columns) * spacingX;
+      node.fy = startY + Math.floor(idx / columns) * spacingY;
     });
 
     const links: Link[] = otherNodes.map((node) => ({

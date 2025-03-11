@@ -32,7 +32,7 @@ const AToAGraph = () => {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const nodes = totalData.splice(1);
+    const nodes = totalData.splice(5);
     const nodeSize = 15;
     const nodeSpacing = 20;
     const columns = 4;
@@ -45,25 +45,51 @@ const AToAGraph = () => {
     const centerNodes = nodes.slice(0, 8); // 상위 8개 노드를 중심으로 지정
     const otherNodes = nodes.slice(8); // 나머지 노드들
 
-    centerNodes.forEach((node, index) => {
-      node.fx = startX + (index % columns) * spacingX;
-      node.fy = startY + Math.floor(index / columns) * spacingY;
+    // 2열 4행으로 배치
+    centerNodes.forEach((node, idx) => {
+      node.fx = startX + (idx % columns) * spacingX;
+      node.fy = startY + Math.floor(idx / columns) * spacingY;
     });
 
-    const links: Link[] = otherNodes.map((node) => ({
-      source: centerNodes[Math.floor(Math.random() * centerNodes.length)],
-      target: node,
-    }));
+    // otherNodes를 36개씩 묶어서 그룹화
+    const groupedOtherNodes = [];
+    for (let i = 0; i < otherNodes.length; i += 36) {
+      groupedOtherNodes.push(otherNodes.slice(i, i + 36));
+    }
+    console.log(groupedOtherNodes);
+    const links: Link[] = [];
+    groupedOtherNodes.forEach((group, idx) => {
+      const centerNode = centerNodes[idx % centerNodes.length];
 
-    for (let i = 0; i < 80; i++) {
-      const sourceNode = nodes[Math.floor(Math.random() * nodes.length)];
-      const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+      group.forEach((node) => {
+        links.push({ source: centerNode, target: node });
+      });
+    });
 
-      if (sourceNode !== targetNode) {
-        links.push({ source: sourceNode, target: targetNode });
-      } else {
-        i--; // 만약 source와 target이 같다면 다시 시도
-      }
+    for (let i = 0; i < 250; i++) {
+      const RandomOterNodes =
+        groupedOtherNodes[Math.floor(Math.random() * groupedOtherNodes.length)]; // 그룹 노드에서 랜덤 노드들 선택
+      const sourceNode =
+        RandomOterNodes[Math.floor(Math.random() * RandomOterNodes.length)]; // 랜덤 노드들에서 노드 선택
+      const centerNodeIdx = groupedOtherNodes.indexOf(RandomOterNodes); // 현재 center 노드 idx
+
+      const adjacentIndices: number[] = [];
+
+      // 좌우 인접
+      if (centerNodeIdx % 4 !== 0) adjacentIndices.push(centerNodeIdx - 1); // 왼쪽
+      if (centerNodeIdx % 4 !== 3) adjacentIndices.push(centerNodeIdx + 1); // 오른쪽
+
+      // 상하 인접
+      if (centerNodeIdx - 4 >= 0) adjacentIndices.push(centerNodeIdx - 4); // 위쪽
+      if (centerNodeIdx + 4 < centerNodes.length)
+        adjacentIndices.push(centerNodeIdx + 4); // 아래쪽
+
+      // 인접한 centerNode 중 랜덤 선택
+      const targetNodeIdx =
+        adjacentIndices[Math.floor(Math.random() * adjacentIndices.length)];
+      const targetNode = centerNodes[targetNodeIdx];
+
+      links.push({ source: sourceNode, target: targetNode });
     }
 
     const svg = d3
