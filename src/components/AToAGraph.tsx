@@ -27,7 +27,7 @@ interface Link {
 const AToAGraph = () => {
   const svgRef = useRef(null);
   const width = window.innerWidth;
-  const height = window.innerHeight;
+  const height = window.innerHeight - 60;
 
   useEffect(() => {
     if (!svgRef.current) return;
