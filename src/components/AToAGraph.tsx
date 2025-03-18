@@ -226,7 +226,7 @@ const AToAGraph = () => {
       d.fx = null;
       d.fy = null;
     }
-  }, []);
+  }, [width, height]);
 
   return (
     <main className="flex flex-col gap-20 pb-10">
